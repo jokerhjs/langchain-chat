@@ -1,36 +1,22 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ai 工具开发
+## 第一阶段: 
+1. 训练模型[]
+2. 大预言模型基础(LLM): transfromer架构， token字符单位，context window 上下文窗口
+3. 提示词工程(prompt): 学习如何通过设定角色、提供示例（Few-shot）和链式思考（CoT）来优化 AI 输出。
+4. 模型选项
 
-## Getting Started
+## 第二阶段： 工程实现： 搭建躯干
+1. API 集成
+2. 向量数据库（Vector Databases）: 如果你的工具需要处理长文本或私人文档，必须学习 RAG（检索增强生成）。
+(1) 关键工具：Pinecone, Milvus, Weaviate。
+(2) 原理：将文本转为向量（Embedding），实现语义搜索。
+3. 开发框架
+(1) LangChain / LlamaIndex：目前最主流的 AI 应用开发框架。
+(2) Vercel AI SDK：适合前端开发者快速搭建 AI 聊天界面。
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 第三阶段:
+1. Agentic Workflow（智能体工作流）：
+(1) Tool Calling（函数调用）：让 AI 学会使用计算器、搜索网页或操作你的数据库。
+(2) 多智能体协作：学习如何让多个 AI 角色分工合作。
+2. 微调（Fine-tuning） vs. RAG：
+(1) 了解什么时候该给 AI 喂资料（RAG），什么时候该训练它改变语气或遵循特定格式（Fine-tuning）。
