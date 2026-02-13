@@ -6,23 +6,28 @@ import { ChatPromptTemplate } from "@langchain/core/prompts";
 export const runtime = "edge";
 
 export async function POST(req: Request) {
-  if (!process.env.OPENAI_API_KEY) {
+  const apiKey = process.env.OPENAI_API_KEY ?? process.env.DEEPSEEK_API_KEY;
+  if (!apiKey) {
     return new Response(
-      "Missing OPENAI_API_KEY. Set it in .env.local or your environment.",
+      "Missing OPENAI_API_KEY (or DEEPSEEK_API_KEY). Set it in .env.local or your environment.",
       { status: 500 }
     );
   }
 
   const openaiBaseUrl =
     process.env.OPENAI_BASE_URL ?? process.env.OPENAI_API_BASE;
+  const modelName = process.env.OPENAI_MODEL ?? "deepseek-chat";
   const { messages } = await req.json();
+
+  console.log('payload')
 
   // 1. 初始化模型
   const model = new ChatOpenAI({
-    modelName: "gpt-4o",
+    modelName,
     streaming: true,
     temperature: 0.7,
     timeout: 60_000,
+    apiKey,
     ...(openaiBaseUrl ? { configuration: { baseURL: openaiBaseUrl } } : {}),
   });
 
@@ -39,21 +44,37 @@ export async function POST(req: Request) {
     }),
   ]);
 
-  // 3. 创建链并生成流
+  // 3. 创建链
   const chain = prompt.pipe(model);
-  const stream = await chain.stream({});
 
   // 4. 将 LangChain 流转换为 AI SDK 的 UI 消息流
   const uiStream = createUIMessageStream({
     execute: async ({ writer }) => {
-      const messageId = crypto.randomUUID();
+      const messageId = crypto.randomUUID(); 
       writer.write({ type: "text-start", id: messageId });
       try {
+        const stream = await chain.stream({});
         for await (const chunk of stream as AsyncIterable<any>) {
-          const text =
-            typeof chunk === "string"
-              ? chunk
-              : (chunk as { content?: string })?.content ?? "";
+          const text = (() => {
+            if (typeof chunk === "string") return chunk;
+            if (typeof (chunk as { text?: unknown })?.text === "string") {
+              return (chunk as { text: string }).text;
+            }
+            const content = (chunk as { content?: unknown })?.content;
+            if (typeof content === "string") return content;
+            if (Array.isArray(content)) {
+              return content
+                .map((part) => {
+                  if (typeof part === "string") return part;
+                  if (part && typeof part === "object" && "text" in part) {
+                    return String((part as { text?: unknown }).text ?? "");
+                  }
+                  return "";
+                })
+                .join("");
+            }
+            return "";
+          })();
           if (text) {
             writer.write({ type: "text-delta", id: messageId, delta: text });
           }

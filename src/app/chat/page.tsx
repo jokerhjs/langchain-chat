@@ -1,11 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useChat, type UIMessage } from "@ai-sdk/react";
 import { Send, Bot, User } from "lucide-react";
-import { SendOutlined } from "@ant-design/icons";
-import { Input, Button, message } from "antd";
+import { SettingOutlined } from "@ant-design/icons";
+import { Input, Button, message, Spin } from "antd";
+import TextareaToolKit from "@/components/TextareaToolkit/TextareaToolKit";
 
+const { TextArea } = Input;
 export default function ChatPage() {
   const { messages, sendMessage, status } = useChat({
     onError: (error) => message.error(error.message),
@@ -17,8 +19,7 @@ export default function ChatPage() {
     setInput(val);
   };
 
-  const handleSubmit = async (event?: { preventDefault?: () => void }) => {
-    event?.preventDefault?.();
+  const handleSubmit = async () => {
     const trimmed = input.trim();
     if (!trimmed || isLoading) return message.error("请输入内容");
     void sendMessage({ text: trimmed });
@@ -26,14 +27,17 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="relative h-full flex flex-col w-full px-4">
+    <div className="relative h-full flex flex-col w-full">
       {/* 消息展示区域 */}
-      <div className="space-y-4 mb-8">
+      <div className="space-y-4 mb-[80px] overflow-y-auto">
         {messages.map((m: UIMessage) => {
-          const text = m.parts
-            .filter((part) => part.type === "text")
-            .map((part) => part.text)
-            .join("");
+          const text =
+            m.parts
+              ?.filter((part) => part.type === "text")
+              .map((part) => part.text)
+              .join("") ?? "";
+          const isLatest = m.id === messages[messages.length - 1]?.id;
+          const showAiLoading = m.role !== "user" && isLoading && isLatest;
           return (
             <div
               key={m.id}
@@ -46,7 +50,13 @@ export default function ChatPage() {
                     : "bg-gray-100 text-black"
                 }`}
               >
-                {m.role === "user" ? <User size={20} /> : <Bot size={20} />}
+                {m.role === "user" ? (
+                  <User size={20} />
+                ) : showAiLoading ? (
+                  <Spin size="small" />
+                ) : (
+                  <Bot size={20} style={{flexBasis: 'auto', flexGrow: 0, flexShrink: 0}} />
+                )}
                 <p className="text-sm leading-relaxed">{text}</p>
               </div>
             </div>
@@ -55,26 +65,29 @@ export default function ChatPage() {
       </div>
 
       {/* 输入区域 */}
-      <form
-        onSubmit={handleSubmit}
-        className="absolute bottom-0 left-0 right-0 p-4 bg-white border-t"
-      >
-        <div className="max-w-2xl mx-auto flex gap-2">
-          <Input
-            className="flex-1 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
-            value={input}
-            placeholder="问问 AI..."
-            onChange={(val) => handleInputChange(val.target.value)}
-          />
-          <Button
-            htmlType="submit"
-            loading={isLoading}
-            className="p-2 bg-blue-600 text-white rounded-md disabled:bg-gray-400"
-          >
-            <SendOutlined size={20} />
-          </Button>
-        </div>
-      </form>
+
+      <div className="absolute bottom-0 left-0 right-0 p-4 bg-white border rounded-[4px]">
+        <TextareaToolKit
+          childToolMenus={[
+            {
+              key: 'setting',
+              label: (
+                <Button type="link" icon={<SettingOutlined />}>配置</Button>
+              )
+            }
+          ]}
+          textareaClass="flex-1 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+          value={input}
+          isLoading={isLoading}
+          textareaProps={{
+            placeholder: "给豆豆提个问题吧..."
+          }}
+          onSubmit={() => handleSubmit()}
+          onTextChange={(val: string) => handleInputChange(val)}
+        >
+          <Button type="primary">模型切换</Button>
+        </TextareaToolKit>
+      </div>
     </div>
   );
 }
