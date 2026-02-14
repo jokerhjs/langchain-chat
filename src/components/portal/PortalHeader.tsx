@@ -1,8 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import PortalAuthButton from "@/components/portal/PortalAuthButton";
+
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "/langchain-chat";
 
 const NAV_ITEMS = [
   { href: "/", label: "首页" },
@@ -12,6 +15,9 @@ const NAV_ITEMS = [
 
 export default function PortalHeader() {
   const pathname = usePathname() ?? "";
+  const normalizedPath = basePath && pathname.startsWith(basePath)
+    ? pathname.slice(basePath.length) || "/"
+    : pathname;
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -36,9 +42,11 @@ export default function PortalHeader() {
         <nav className="flex gap-6 text-sm text-gray-600">
           {NAV_ITEMS.map((item) => {
             const isActive =
-              item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
+              item.href === "/"
+                ? normalizedPath === "/"
+                : normalizedPath.startsWith(item.href);
             return (
-              <a
+              <Link
                 key={item.href}
                 href={item.href}
                 className={`relative pb-1 text-sm transition-colors ${
@@ -48,7 +56,7 @@ export default function PortalHeader() {
                 }`}
               >
                 {item.label}
-              </a>
+              </Link>
             );
           })}
         </nav>
