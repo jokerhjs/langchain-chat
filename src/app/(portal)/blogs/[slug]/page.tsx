@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { use} from 'react'
 
 const BLOG_DETAIL: Record<
   string,
@@ -86,12 +85,9 @@ const BLOG_DETAIL: Record<
 export default function BlogDetailPage({
   params,
 }: {
-  params: { slug: any };
+  params: { slug: string };
 }) {
-  const res = use(params as unknown as Promise<{ slug: string }>);
-  const article = BLOG_DETAIL[res.slug];
-
-  console.log(res);
+  const article = BLOG_DETAIL[params.slug];
 
   if (!article) {
     return (
@@ -137,4 +133,8 @@ export default function BlogDetailPage({
       </div>
     </div>
   );
+}
+
+export function generateStaticParams() {
+  return Object.keys(BLOG_DETAIL).map((slug) => ({ slug }));
 }
