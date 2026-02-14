@@ -1,13 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useChat, type UIMessage } from "@ai-sdk/react";
-import { Send, Bot, User } from "lucide-react";
+import { Bot, User } from "lucide-react";
 import { SettingOutlined } from "@ant-design/icons";
-import { Input, Button, message, Spin } from "antd";
+import { Button, message, Spin } from "antd";
 import TextareaToolKit from "@/components/TextareaToolkit/TextareaToolKit";
-
-const { TextArea } = Input;
 export default function ChatPage() {
   const { messages, sendMessage, status } = useChat({
     onError: (error) => message.error(error.message),
@@ -55,7 +53,10 @@ export default function ChatPage() {
                 ) : showAiLoading ? (
                   <Spin size="small" />
                 ) : (
-                  <Bot size={20} style={{flexBasis: 'auto', flexGrow: 0, flexShrink: 0}} />
+                  <Bot
+                    size={20}
+                    style={{ flexBasis: "auto", flexGrow: 0, flexShrink: 0 }}
+                  />
                 )}
                 <p className="text-sm leading-relaxed">{text}</p>
               </div>
@@ -70,17 +71,15 @@ export default function ChatPage() {
         <TextareaToolKit
           childToolMenus={[
             {
-              key: 'setting',
-              label: (
-                <Button type="link" icon={<SettingOutlined />}>配置</Button>
-              )
-            }
+              key: "setting",
+              label: <Button type="link" icon={<SettingOutlined />}>配置</Button>,
+            },
           ]}
           textareaClass="flex-1 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
           value={input}
           isLoading={isLoading}
           textareaProps={{
-            placeholder: "给豆豆提个问题吧..."
+            placeholder: "给豆豆提个问题吧...",
           }}
           onSubmit={() => handleSubmit()}
           onTextChange={(val: string) => handleInputChange(val)}

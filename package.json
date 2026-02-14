@@ -18,6 +18,7 @@
     "@langchain/openai": "^1.2.1",
     "ai": "^6.0.85",
     "antd": "^6.2.3",
+    "echarts-for-react": "^3.0.6",
     "langchain": "^1.2.7",
     "lucide-react": "^0.562.0",
     "next": "16.1.1",

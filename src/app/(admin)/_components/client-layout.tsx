@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -33,15 +33,13 @@ export default function ClientLayout({
     router.push(key);
   }
 
-  useEffect(() => {
-    router.replace("/dashboard");
-  }, [])
-
   return (
     <Layout className="h-full">
-      <Sider trigger={null} collapsible collapsed={collapsed}>
+      <Sider trigger={null} collapsible collapsed={collapsed} className="relative">
         <div className="demo-logo-vertical" />
+        <div className="h-full flex flex-col">
         <Menu
+          className="flex-1"
           theme="dark"
           onClick={(key) => handleSelect(key)}
           mode="inline"
@@ -69,6 +67,8 @@ export default function ClientLayout({
             },
           ]}
         />
+        <Button type="primary" className="mx-2 my-5" onClick={() => router.push("/")}>返回首页</Button>
+        </div>
       </Sider>
       <Layout>
         <Header style={{ padding: 0, background: colorBgContainer }}>
