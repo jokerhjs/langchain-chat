@@ -1,9 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import PortalAuthButton from "@/components/portal/PortalAuthButton";
 
+const NAV_ITEMS = [
+  { href: "/", label: "首页" },
+  { href: "/docs", label: "文档" },
+  { href: "/blogs", label: "发布" },
+];
+
 export default function PortalHeader() {
+  const pathname = usePathname() ?? "";
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -26,15 +34,23 @@ export default function PortalHeader() {
       <div className="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
         <div className="text-lg font-semibold">AI 工具门户</div>
         <nav className="flex gap-6 text-sm text-gray-600">
-          <a href="/" className="hover:text-black">
-            首页
-          </a>
-          <a href="/docs" className="hover:text-black">
-            文档
-          </a>
-          <a href="/blogs" className="hover:text-black">
-            发布
-          </a>
+          {NAV_ITEMS.map((item) => {
+            const isActive =
+              item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
+            return (
+              <a
+                key={item.href}
+                href={item.href}
+                className={`relative pb-1 text-sm transition-colors ${
+                  isActive ? "text-black" : "text-gray-600 hover:text-black"
+                } after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-black after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100 ${
+                  isActive ? "after:scale-x-100" : ""
+                }`}
+              >
+                {item.label}
+              </a>
+            );
+          })}
         </nav>
         <PortalAuthButton />
       </div>
