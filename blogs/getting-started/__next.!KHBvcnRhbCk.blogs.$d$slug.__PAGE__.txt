@@ -1,0 +1,6 @@
+1:"$Sreact.fragment"
+2:I[687646,["/langchain-chat/_next/static/chunks/7cff3a0d698ec591.js","/langchain-chat/_next/static/chunks/d881232f1e431356.js","/langchain-chat/_next/static/chunks/3bb9a08724a9ffee.js","/langchain-chat/_next/static/chunks/6a200c45c9541333.js","/langchain-chat/_next/static/chunks/2c24d830ac4a9291.js"],""]
+3:I[339784,["/langchain-chat/_next/static/chunks/46330bc38aff1df9.js","/langchain-chat/_next/static/chunks/6e73cbf6450de953.js"],"OutletBoundary"]
+4:"$Sreact.suspense"
+0:{"buildId":"GcdT3BVEIteOv0lEAuweA","rsc":["$","$1","c",{"children":[["$","div",null,{"className":"mx-auto max-w-3xl px-6 py-16","children":[["$","h1",null,{"className":"text-2xl font-semibold mb-2","children":"文章不存在"}],["$","p",null,{"className":"text-gray-600 mb-6","children":"请返回博客列表查看其他内容。"}],["$","$L2",null,{"href":"/blogs","className":"inline-flex items-center justify-center rounded-md border border-black text-black px-4 py-2 text-sm","children":"返回博客列表"}]]}],null,["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"loading":null,"isPartial":false}
+5:null

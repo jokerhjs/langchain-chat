@@ -1,0 +1,5 @@
+1:"$Sreact.fragment"
+2:I[339784,["/langchain-chat/_next/static/chunks/46330bc38aff1df9.js","/langchain-chat/_next/static/chunks/6e73cbf6450de953.js"],"OutletBoundary"]
+3:"$Sreact.suspense"
+0:{"buildId":"GcdT3BVEIteOv0lEAuweA","rsc":["$","$1","c",{"children":[["$","div",null,{"children":["$","h1",null,{"children":"Platform"}]}],null,["$","$L2",null,{"children":["$","$3",null,{"name":"Next.MetadataOutlet","children":"$@4"}]}]]}],"loading":null,"isPartial":false}
+4:null
