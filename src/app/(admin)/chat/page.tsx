@@ -12,9 +12,7 @@ export default function ChatPage() {
     /\/$/,
     ""
   );
-  const chatApiUrl =
-    process.env.NEXT_PUBLIC_CHAT_API_URL ||
-    (apiBaseUrl ? `${apiBaseUrl}/api/chat` : "/api/chat");
+  const chatApiUrl = "/api/chat";
 
   const { messages, sendMessage, status } = useChat({
     transport: new DefaultChatTransport({ api: chatApiUrl }),
