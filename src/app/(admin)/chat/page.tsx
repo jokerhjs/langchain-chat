@@ -7,7 +7,16 @@ import { SettingOutlined } from "@ant-design/icons";
 import { Button, message, Spin } from "antd";
 import TextareaToolKit from "@/components/TextareaToolkit/TextareaToolKit";
 export default function ChatPage() {
+  const apiBaseUrl = (process.env.NEXT_PUBLIC_API_BASE_URL || "").replace(
+    /\/$/,
+    ""
+  );
+  const chatApiUrl =
+    process.env.NEXT_PUBLIC_CHAT_API_URL ||
+    (apiBaseUrl ? `${apiBaseUrl}/api/chat` : "/api/chat");
+
   const { messages, sendMessage, status } = useChat({
+    api: chatApiUrl,
     onError: (error) => message.error(error.message),
   });
   const [input, setInput] = useState("");

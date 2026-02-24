@@ -24,6 +24,13 @@ interface DeekSeekData {
 const { RangePicker } = DatePicker;
 export default function DashboardPage() {
   const [form] = Form.useForm();
+  const apiBaseUrl = (process.env.NEXT_PUBLIC_API_BASE_URL || "").replace(
+    /\/$/,
+    ""
+  );
+  const deekseekApiUrl = apiBaseUrl
+    ? `${apiBaseUrl}/api/deekseek`
+    : "/api/deekseek";
 
   useEffect(() => {
     fetchDeekSeek();
@@ -65,7 +72,7 @@ export default function DashboardPage() {
   const fetchDeekSeek = async () => {
     try {
       setLoading(true);
-      const res = await fetch("/api/deekseek");
+      const res = await fetch(deekseekApiUrl);
       const data = await res.json();
       setDeekSeekData({
         currency: data?.balance_infos[0]?.currency,
