@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useChat, type UIMessage } from "@ai-sdk/react";
+import { DefaultChatTransport } from "ai";
 import { Bot, User } from "lucide-react";
 import { SettingOutlined } from "@ant-design/icons";
 import { Button, message, Spin } from "antd";
@@ -16,7 +17,7 @@ export default function ChatPage() {
     (apiBaseUrl ? `${apiBaseUrl}/api/chat` : "/api/chat");
 
   const { messages, sendMessage, status } = useChat({
-    api: chatApiUrl,
+    transport: new DefaultChatTransport({ api: chatApiUrl }),
     onError: (error) => message.error(error.message),
   });
   const [input, setInput] = useState("");
