@@ -19,7 +19,6 @@ export async function POST(req: Request) {
   const modelName = process.env.OPENAI_MODEL ?? "deepseek-chat";
   const { messages } = await req.json();
 
-  console.log('payload')
 
   // 1. 初始化模型
   const model = new ChatOpenAI({
