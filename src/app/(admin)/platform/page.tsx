@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, Pagination, Spin } from 'antd';
+import { Card, Pagination, Spin, Empty } from 'antd';
 import { useState, useEffect } from 'react';
 const { Meta } = Card;
 
@@ -56,7 +56,7 @@ export default function PlatformPage() {
       <div className="relative h-full">
         <Spin spinning={loading}>
           <div className="grid grid-cols-6 gap-4 pb-24">
-            {platforms.map((platform) => (
+            {platforms.length > 0 && platforms.map((platform) => (
               <Card
                 key={platform.name}
                 cover={
@@ -71,13 +71,13 @@ export default function PlatformPage() {
               >
                 <Meta title={platform.name} description={platform.description} />
               </Card>
-            ))}
+            )) || <Empty description="No platforms found" />}
           </div>
         </Spin>
         
 
         <div className="absolute bottom-0 right-0 flex items-center h-[80px]">
-          <Pagination current={currentPage} pageSize={pageSize} onChange={handlePageChange} total={100} pageSizeOptions={['10', '20', '50', '100']} />
+          <Pagination current={currentPage} pageSize={pageSize} onChange={handlePageChange} total={total} pageSizeOptions={['10', '20', '50', '100']} />
         </div>
     </div>
   );
