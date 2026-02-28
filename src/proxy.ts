@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server";
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const session = request.cookies.get("admin_session")?.value;
+  const session = request.cookies.get("access_token")?.value;
   if (session) return NextResponse.next();
 
   const url = request.nextUrl.clone();

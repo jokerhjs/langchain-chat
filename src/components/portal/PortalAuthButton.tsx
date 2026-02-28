@@ -9,7 +9,7 @@ function hasAdminSession() {
   if (typeof document === "undefined") return false;
   return document.cookie
     .split("; ")
-    .some((item) => item.startsWith("admin_session="));
+    .some((item) => item.startsWith("access_token="));
 }
 
 export default function PortalAuthButton() {
@@ -23,7 +23,7 @@ export default function PortalAuthButton() {
 
   if (isAuthed) {
     const handleLogout = () => {
-      document.cookie = "admin_session=; Path=/; Max-Age=0";
+      document.cookie = "access_token=; Path=/; Max-Age=0";
       setIsAuthed(false);
       router.refresh();
     };

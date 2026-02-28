@@ -172,7 +172,7 @@ export default function RecordsPage() {
           </Form.Item>
         </Form>
       </div>
-      <div className="min-h-0 flex-1">
+       <div className="min-h-0 flex-1">
         <Table<DataType>
           columns={columns}
           dataSource={pagedData}
